@@ -9,7 +9,7 @@ FPS = 60
 
 WHITE = (255,255,255)
 
-def load_image(img,size):
+def load_image(img,size=None):
     image = pygame.image.load(img)
     if size:
         image = pygame.transform.scale(image,size)
@@ -40,3 +40,25 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption(CAPTION)
 
 clock = pygame.time.Clock()
+
+def start_game():
+    player = Player()
+    sprites = pygame.sprite.Group()
+    sprites.add(player)
+    bg = load_image("bg.png")
+    running = True
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+        
+        pressed_keys = pygame.key.get_pressed()
+        player.update(pressed_keys)
+        screen.blit(bg,(0,0))
+        sprites.draw(screen)
+        pygame.display.flip()
+        clock.tick(FPS)
+    pygame.quit()
+    exit()
+
+start_game()
